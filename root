@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"b57a4f5420adf835b8b83469143e813bd4f12c78"},"timestamp":1578296910,"metadata":{"github-id":"MDU6SXNzdWU1NDU1OTA3MDc=","github-url":"https://github.com/LibreDWG/libredwg/issues/180","origin":"github"},"title":"encode EED","message":"still broken if num_eed \u003e 0\nsee dwgrewrite examples","files":null}]}
