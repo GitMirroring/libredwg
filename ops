@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"b57a4f5420adf835b8b83469143e813bd4f12c78"},"timestamp":1530769408,"metadata":{"github-id":"MDU6SXNzdWUzMzg0MzM2OTI=","github-url":"https://github.com/LibreDWG/libredwg/issues/29","origin":"github"},"title":"perl check needs installed libredwg","message":"fix the {DY}LD_LIBRARY_PATH and LDDLFLAGS","files":null}]}
