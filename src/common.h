@@ -589,8 +589,8 @@ typedef enum DWG_SENTINEL
 
 const unsigned char *dwg_sentinel (const Dwg_Sentinel sentinel_id);
 // used by unit-tests
-EXPORT char *strrplc (const char *s, const char *from,
-                      const char *to) __nonnull_all;
+char *strrplc (const char *s, const char *from,
+               const char *to) __nonnull_all;
 
 #define strEQ(s1, s2) !strcmp ((s1), (s2))
 #define strNE(s1, s2) (strcmp ((s1), (s2)) != 0)
