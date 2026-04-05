@@ -1731,6 +1731,8 @@ dxf_fixup_header (Bit_Chain *dat, Dwg_Data *dwg)
 
   if (hdr->version >= R_2000 || !hdr->app_dwg_version)
     hdr->app_dwg_version = hdr->dwg_version;
+  if (!hdr->app_maint_version)
+    hdr->app_maint_version = hdr->maint_version;
 
   if (!vars->FINGERPRINTGUID)
     {
