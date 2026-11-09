@@ -11571,9 +11571,8 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
                        != dwg->object[0].tio.object->tio.BLOCK_HEADER
                 && dwg->num_objects)
               {
+                dwg_free_object (obj);
                 dwg->num_objects--;
-                free (obj->tio.object->tio.BLOCK_HEADER);
-                obj->tio.object->tio.BLOCK_HEADER = NULL;
                 obj = &dwg->object[0];
                 _obj = obj->tio.object->tio.APPID;
                 LOG_TRACE ("Reuse existing BLOCK_HEADER.*Model_Space %X [0]\n",
@@ -11719,6 +11718,8 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
                     {
                       obj->type = obj->fixedtype = DWG_TYPE_DIMENSION_LINEAR;
                       obj->name = (char *)"DIMENSION_LINEAR";
+                      free (obj->dxfname);
+                      dxfname = NULL; /* may equal caller's dxfname */
                       obj->dxfname = strdup (obj->name);
                       strcpy (name, obj->name);
                       LOG_TRACE ("change type to %s\n", name);
@@ -11729,6 +11730,8 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
                       // new pairs
                       obj->type = obj->fixedtype = DWG_TYPE_DIMENSION_ALIGNED;
                       obj->name = (char *)"DIMENSION_ALIGNED";
+                      free (obj->dxfname);
+                      dxfname = NULL; /* may equal caller's dxfname */
                       obj->dxfname = strdup (obj->name);
                       strcpy (name, obj->name);
                       LOG_TRACE ("change type to %s\n", name);
@@ -11737,6 +11740,8 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
                     {
                       obj->type = obj->fixedtype = DWG_TYPE_DIMENSION_ORDINATE;
                       obj->name = (char *)"DIMENSION_ORDINATE";
+                      free (obj->dxfname);
+                      dxfname = NULL; /* may equal caller's dxfname */
                       obj->dxfname = strdup (obj->name);
                       strcpy (name, obj->name);
                       LOG_TRACE ("change type to %s\n", name);
@@ -11745,6 +11750,8 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
                     {
                       obj->type = obj->fixedtype = DWG_TYPE_DIMENSION_DIAMETER;
                       obj->name = (char *)"DIMENSION_DIAMETER";
+                      free (obj->dxfname);
+                      dxfname = NULL; /* may equal caller's dxfname */
                       obj->dxfname = strdup (obj->name);
                       strcpy (name, obj->name);
                       LOG_TRACE ("change type to %s\n", name);
@@ -13489,6 +13496,9 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
           else if (pair->code == 71
                    && strEQc (subclass, "AcDbSectionViewStyle"))
             {
+              /* These helpers read their own pairs via FIELD_* macros and
+                 never consume the caller's pair; free it first. */
+              dxf_free_pair (pair);
               pair = add_AcDbSectionViewStyle (obj, dat);
               if (!pair) // success
                 goto start_loop;
@@ -13498,6 +13508,7 @@ static __nonnull ((1, 2, 3, 4)) Dxf_Pair *new_object (
           else if (pair->code == 71 && strEQc (subclass, "AcDbDetailViewStyle")
                    && obj->fixedtype == DWG_TYPE_DETAILVIEWSTYLE)
             {
+              dxf_free_pair (pair);
               pair = add_AcDbDetailViewStyle (obj, dat);
               if (pair && pair->code == 100) // success
                 goto start_loop;
